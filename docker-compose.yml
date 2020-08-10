@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    php:
+        build: .
+        working_dir: /app
+        volumes:
+            - ./:/app
+            # host-volume for composer cache
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+        ports:
+            - '30080:80'
