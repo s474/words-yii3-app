@@ -23,6 +23,7 @@ class EchoController
     {
         if ($request->getMethod() === Method::POST) {
             $form->load($request->getParsedBody());
+            $form->validate();
         }
 
         return $this->viewRenderer->withCsrf()->render('say', [

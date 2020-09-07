@@ -2,6 +2,7 @@
 namespace App\Form;
 
 use Yiisoft\Form\FormModel;
+use Yiisoft\Validator\Rule\Required;
 
 class EchoForm extends FormModel
 {
@@ -16,6 +17,15 @@ class EchoForm extends FormModel
     {
         return [
             'message' => 'Message',
+        ];
+    }
+    
+    protected function rules(): array
+    {
+        return [
+            'message' => [
+                new Required()
+            ]
         ];
     }
 }
