@@ -13,5 +13,5 @@ return [
     Route::get('/about', [SiteController::class, 'about'])->name('site/about'),
     Route::methods([Method::GET, Method::POST], '/contact', [ContactController::class, 'contact'])
         ->name('contact/form'),
-    Route::get('/say[/{message}]', [EchoController::class, 'say'])->name('echo/say'),    
+    Route::methods([Method::GET, Method::POST], '/say', [EchoController::class, 'say'])->name('echo/say'),    
 ];

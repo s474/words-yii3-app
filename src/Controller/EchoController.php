@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Form\EchoForm;
 use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Http\Method;
 
 class EchoController
 {
@@ -17,12 +19,14 @@ class EchoController
         $this->viewRenderer = $viewRenderer->withControllerName('echo');
     }
 
-    public function say(ServerRequestInterface $request): ResponseInterface
+    public function say(ServerRequestInterface $request, EchoForm $form): ResponseInterface
     {
-        $message = $request->getAttribute('message', 'Hello!');
+        if ($request->getMethod() === Method::POST) {
+            $form->load($request->getParsedBody());
+        }
 
-        return $this->viewRenderer->render('say', [
-            'message' => $message,
+        return $this->viewRenderer->withCsrf()->render('say', [
+            'form' => $form,
         ]);
     }
 }
