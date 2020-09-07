@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Psr\Http\Message\ResponseFactoryInterface;
+use App\ViewRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Html\Html;
 
 class EchoController
-{  
-    private ResponseFactoryInterface $responseFactory;
-
-    public function __construct(ResponseFactoryInterface $responseFactory)
+{
+    private ViewRenderer $viewRenderer;
+    
+    public function __construct(ViewRenderer $viewRenderer)
     {
-        $this->responseFactory = $responseFactory;
+        $this->viewRenderer = $viewRenderer->withControllerName('echo');
     }
 
     public function say(ServerRequestInterface $request): ResponseInterface
     {
         $message = $request->getAttribute('message', 'Hello!');
 
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write('The message is: ' . Html::encode($message));
-        return $response;
+        return $this->viewRenderer->render('say', [
+            'message' => $message,
+        ]);
     }
 }
